@@ -94,6 +94,39 @@ std::set<std::string> boggle(const std::set<std::string>& dict, const std::set<s
 bool boggleHelper(const std::set<std::string>& dict, const std::set<std::string>& prefix, const std::vector<std::vector<char> >& board, 
 								   std::string word, std::set<std::string>& result, unsigned int r, unsigned int c, int dr, int dc)
 {
-//add your solution here!
+    // Check if the new position is out of bounds.
+    if (r >= board.size() || c >= board.size()) {
+        // If it is, stop the recursion and return false.
+        return false;
+    }
 
+    // Add the letter in the new cell to the current word.
+    word += board[r][c];
+
+
+
+    // Check if the current word is a prefix of a longer word.
+    // if (!prefix.count(word)) {
+    //     // If it is not, stop the recursion and return false.
+    //     return false;
+    // }
+
+    // Keep track of whether we found a longer word in this direction.
+    bool found_longer_word = false;
+
+    // Recurse to the next cell in the same direction, and keep track of whether it found a longer word.
+    found_longer_word = boggleHelper(dict, prefix, board, word, result, r + dr, c + dc, dr, dc);
+
+
+
+    // If we found a longer word, don't add any more words in this direction.
+    if (found_longer_word) {
+        return true;
+    }
+		if (dict.count(word)) {
+      result.insert(word);
+			return true;
+    } 
+
+    return found_longer_word;
 }
